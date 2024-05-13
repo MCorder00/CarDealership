@@ -16,21 +16,25 @@ public class UserInterface {
 
 
         public void init () {
-           // DealershipFileManager myDealershipFileManager = new DealershipFileManager();
-          //  this.dealership = myDealershipFileManager.getDealership();
+          DealershipFileManager myDealershipFileManager = new DealershipFileManager();
+          this.dealership = myDealershipFileManager.getDealership();
         }
         public void display(){
             //need to ask user something?
+            System.out.println("Welcome to the Car Dealership. Please type a command: ");
+            System.out.println("1. Get vehicles by price");
+            System.out.println("2. Get vehicles by make and model");
+            System.out.println("0. Exit");
             String userCommand = scanner.next();
             boolean exit = false;
 
             while(!exit){
                 switch (userCommand){
                     case "1":
-                       // Option1();
+                        processGetByPriceRequest();
                         break;
                     case "2":
-                       // Option2();
+                        processGetByMakeModelRequest();
                         break;
                     case "0":
                         exit = true;
@@ -40,7 +44,15 @@ public class UserInterface {
                 }
             }
         }
-        public void processGetByPriceRequest() {}
+        public void processGetByPriceRequest() {
+            System.out.println("Get vehicles by price");
+            System.out.println("Enter min price:");
+            double min = scanner.nextDouble();
+            System.out.println("Enter max price:");
+            double max = scanner.nextDouble();
+            List<Vehicle> vehicles = dealership.getVehiclesByPrice(min, max);
+            displayVehicles(vehicles);
+        }
         public void processGetByMakeModelRequest() {}
         public void processGetByYearRequest() {}
         public void processGetByColorRequest() {}
@@ -56,7 +68,7 @@ public class UserInterface {
         } else {
             System.out.println("VIN|YEAR|MAKE|MODEL|TYPE|COLOR|MILEAGE|PRICE");
             for (Vehicle vehicle : vehicles) {
-                System.out.printf("%d|%d|%s|%s|%s|%s|%d|%f\n",
+                System.out.printf("%d|%d|%s|%s|%s|%s|%d|%s\n",
                         vehicle.getVin(),
                         vehicle.getYear(),
                         vehicle.getMake(),
